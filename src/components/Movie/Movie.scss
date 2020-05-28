@@ -1,0 +1,48 @@
+.movie {
+    max-width: 767px;
+    padding-top: 40px;
+    margin: 0 auto;
+    &-row {
+        text-align: left;
+        &.row {
+            display: flex;
+            .movie-row-title {
+                margin-bottom: 0;
+            }
+        }
+    }
+    &-content {
+        margin-bottom: 40px;
+    }
+    &-ratings {
+        margin-bottom: 40px;
+        &-title {
+            text-align: left;
+            margin-bottom: 30px;
+            font-size: 21px;
+            font-weight: 700;
+        }
+    }
+}
+
+.movie-row {
+    margin-bottom: 10px;
+    text-align: left;
+    &:last-of-type {
+        margin-bottom: 0;
+    }
+    &.row {
+        display: flex;
+        .movie-title {
+            margin-bottom: 0;
+        }
+        &.center {
+            align-items: center;
+        }
+    }
+    &-title {
+        font-weight: 700;
+        margin-bottom: 5px;
+        padding-right: 10px;
+    }
+}

@@ -1,0 +1,17 @@
+.user-rating-wrap {
+    text-align: left;
+    display: flex;
+    align-items: center;
+    .user-rating-title {
+        display: flex;
+        font-weight: 700;
+        font-size: 16px;
+        align-items: center;
+        margin-right: 10px;
+        width: 220px;
+        .user-name {
+            margin-right: 5px;
+            text-transform: capitalize;
+        }
+    }
+}
