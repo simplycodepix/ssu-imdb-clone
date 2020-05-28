@@ -1,7 +1,8 @@
 import axios from 'axios';
 import qs from 'querystring';
+import { MOVIES, USERS, RATINGS, GENRES, LOCATIONS } from '../store/types';
 
-const localApiURL = `http://localhost:804s2/api`;
+const localApiURL = `http://localhost:8042/api`;
 const apiURL = `http://imdb.god-development.com/api`;
 
 export const getMovies = async ({ limit, offset, top }) => {
@@ -63,3 +64,108 @@ export const getUserProfile = async ({ id }) => {
     const { data } = await axios.get(`${apiURL}/user/${id}`);
     return data;
 }
+
+// Delete
+
+export const deleteUser = async ({ user_id }) => {
+    const { data } = await axios.post(`${apiURL}/crud/users/delete`, qs.stringify({ user_id }));
+    return data;
+}
+
+export const deleteGenre = async ({ genre_id }) => {
+    const { data } = await axios.post(`${apiURL}/crud/genres/delete`, qs.stringify({ genre_id }));
+    return data;
+}
+
+export const deleteRating = async ({ movie_id, user_id }) => {
+    const { data } = await axios.post(`${apiURL}/crud/rating/delete`, qs.stringify({ movie_id, user_id }));
+    return data;
+}
+
+export const deleteLocation = async ({ location_id }) => {
+    const { data } = await axios.post(`${apiURL}/crud/locations/delete`, qs.stringify({ location_id }));
+    return data;
+}
+
+export const deleteMovie = async ({ movie_id }) => {
+    const { data } = await axios.post(`${apiURL}/crud/movies/delete`, qs.stringify({ movie_id }));
+    return data;
+}
+
+export const deleteFromTable = async ({ table, payload }) => {
+    let response;
+
+    switch (table) {
+        case MOVIES:
+            response = await deleteMovie({ movie_id: payload.id });
+            break;
+        case USERS:
+            response = await deleteUser({ user_id: payload.id });
+            break;
+        case RATINGS:
+            response = await deleteRating({ movie_id: payload.movie_id, user_id: payload.user_id });
+            break;
+        case GENRES:
+            response = await deleteGenre({ genre_id: payload.id });
+            break;
+        case LOCATIONS:
+            response = await deleteLocation({ location_id: payload.id });
+            break;
+        default:
+            break;
+    }
+
+    return response;
+};
+
+// Get Single
+export const getSingleMovie = async ({ movie_id }) => {
+    const { data } = await axios.get(`${apiURL}/crud/movies/getSingle?movie_id=${movie_id}`);
+    return data.movie;
+}
+
+export const getSingleUser = async ({ user_id }) => {
+    const { data } = await axios.get(`${apiURL}/crud/users/getSingle?user_id=${user_id}`);
+    return data.user;
+}
+
+export const getSingleGenre = async ({ genre_id }) => {
+    const { data } = await axios.get(`${apiURL}/crud/genres/getSingle?genre_id=${genre_id}`);
+    return data.genre;
+}
+
+export const getSingleLocation = async ({ location_id }) => {
+    const { data } = await axios.get(`${apiURL}/crud/locations/getSingle?location_id=${location_id}`);
+    return data.location;
+}
+
+export const getSingleRating = async ({ movie_id, user_id }) => {
+    const { data } = await axios.get(`${apiURL}/crud/rating/getSingle?movie_id=${movie_id}&user_id=${user_id}`);
+    return data.rating;
+}
+
+export const getSingle = async ({ table, payload }) => {
+    let response;
+
+    switch (table) {
+        case MOVIES:
+            response = await getSingleMovie({ movie_id: payload.id });
+            break;
+        case USERS:
+            response = await getSingleUser({ user_id: payload.id });
+            break;
+        case RATINGS:
+            response = await getSingleRating({ movie_id: payload.movie_id, user_id: payload.user_id });
+            break;
+        case GENRES:
+            response = await getSingleGenre({ genre_id: payload.id });
+            break;
+        case LOCATIONS:
+            response = await getSingleLocation({ location_id: payload.id });
+            break;
+        default:
+            break;
+    }
+
+    return response;
+};

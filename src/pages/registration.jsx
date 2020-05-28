@@ -109,7 +109,7 @@ export const RegistrationPage = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="sex">Your Gender</label>
-                        <select onChange={handleChange} name="sx" id="sex">
+                        <select onChange={handleChange} name="sex" id="sex">
                             <option value="male">Male</option>
                             <option value="female">Female</option>
                             <option value="other">Other</option>

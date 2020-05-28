@@ -26,4 +26,15 @@ $pagination-active-color: #f5c518;
             color: #fff;
         }
     }
+    @media (max-width: 767px) {
+        &-list {
+            flex-wrap: wrap;
+        }
+        &-item {
+            margin: 0 5px 10px;
+            width: 30px;
+            height: 30px;
+            font-size: 12px;
+        }
+    }
 }

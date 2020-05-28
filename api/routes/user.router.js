@@ -16,4 +16,7 @@ userRouter.route('/user/registration')
 userRouter.route('/user/:id')
     .get(userController.getUserData);
 
+userRouter.route('/user/:id/suggestions')
+    .get(userController.getMovieSuggestions);
+
 module.exports = userRouter;

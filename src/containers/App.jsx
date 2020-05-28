@@ -11,6 +11,7 @@ import Header from '../components/Header/Header';
 import AdminPage from '../pages/admin';
 import TopMoviesPage from '../pages/top';
 import ProfilePage from '../pages/profile';
+import EditForm from '../components/EditForm/EditForm';
 
 function App() {
   const { authenticated, user } = useContext(AuthContext);
@@ -25,7 +26,8 @@ function App() {
           <Route exact path="/profile" render={(props) => !authenticated || !user ? <Redirect to="/" /> : <ProfilePage {...props} />} />
           <Route exact path="/registration" render={(props) => authenticated ? <Redirect to="/" /> : <RegistrationPage {...props} />} />
           <Route exact path="/login" render={(props) => authenticated ? <Redirect to="/" /> : <LoginPage {...props} />} />
-          <Route path="/movie/:id" render={(props) => <Movie {...props} />} />
+          <Route exact path="/movie/:id" render={(props) => <Movie {...props} />} />
+          <Route exact path="/:table/:id/edit" render={(props) => <EditForm {...props} />} />
         </Switch>
       </Router>
     </div>

@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import CRUDTable from '../components/CRUDTable/CRUDTable';
-import { getMoviesTableData, getGenreTableData, getLocationTableData, getRatingTableData, getUserTableData } from '../api';
+import { getMoviesTableData, getGenreTableData, getLocationTableData, getRatingTableData, getUserTableData, deleteFromTable } from '../api';
+import { MOVIES, GENRES, LOCATIONS, USERS, RATINGS } from '../store/types';
+import { useHistory } from 'react-router-dom';
 
 export const AdminPage = () => {
-    const [table, setTable] = useState('Movies');
+    const [table, setTable] = useState(MOVIES);
     const [tableData, setTableData] = useState([]);
+    let history = useHistory();
 
     useEffect(() => {
-        loader(table);
+        if (table === MOVIES) loadMovies();
+        if (table === GENRES) loadGenres();
+        if (table === LOCATIONS) loadLocations();
+        if (table === USERS) loadUsers();
+        if (table === RATINGS) loadRatings();
     }, [table]);
 
     const loadMovies = async () => {
@@ -38,35 +45,37 @@ export const AdminPage = () => {
         setTableData(genres);
     }
 
-    const loader = (table) => {
-        if (table === 'Movies') return loadMovies();
-        if (table === 'Genres') return loadGenres();
-        if (table === 'Locations') return loadLocations();
-        if (table === 'Users') return loadUsers();
-        if (table === 'Ratings') return loadRatings();
-    };
+    const deleteItem = async ({ tableName, data }) => {
+        setTable('Loading');
+        await deleteFromTable({ table: tableName, payload: data });
+        setTable(tableName);
+    }
+
+    const editItem = ({ tableName, data }) => {
+        if (tableName === RATINGS) {
+            history.push(`${tableName}/${data.movie_id}-${data.user_id}/edit`)
+            return;
+        }
+        history.push(`${tableName}/${data.id}/edit`)
+    }
 
     return (
         <div className="admin-page">
             <div className="container">
                 <div className="admin-page-header">
                     <ul className="admin-tables">
-                        <li onClick={() => changeTable('Movies')}>Movies</li>
-                        <li onClick={() => changeTable('Users')}>Users</li>
-                        <li onClick={() => changeTable('Genres')}>Genres</li>
-                        <li onClick={() => changeTable('Locations')}>Locations</li>
-                        <li onClick={() => changeTable('Ratings')}>Ratings</li>
+                        <li onClick={() => changeTable(MOVIES)}>Movies</li>
+                        <li onClick={() => changeTable(USERS)}>Users</li>
+                        <li onClick={() => changeTable(GENRES)}>Genres</li>
+                        <li onClick={() => changeTable(LOCATIONS)}>Locations</li>
+                        <li onClick={() => changeTable(RATINGS)}>Ratings</li>
                     </ul>
                 </div>
                 <div className="admin-page-table">
                     <div className="admin-page-table-title">
                         {table}
                     </div>
-                    {table === 'Movies' && <CRUDTable name={table} data={tableData} />}
-                    {table === 'Users' && <CRUDTable name={table} data={tableData} />}
-                    {table === 'Genres' && <CRUDTable name={table} data={tableData} />}
-                    {table === 'Locations' && <CRUDTable name={table} data={tableData} />}
-                    {table === 'Ratings' && <CRUDTable name={table} data={tableData} />}
+                    {table && tableData && <CRUDTable deleteItem={deleteItem} editItem={editItem} name={table} data={tableData} />}
                 </div>
             </div>
         </div>

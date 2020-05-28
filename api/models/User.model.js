@@ -11,6 +11,16 @@ const User = function (user) {
     this.created_at = new Date();
 };
 
+User.getSingle = ({ user_id }, callback) => {
+    sql.query("SELECT * FROM users WHERE id = ?", [user_id], function (error, result) {
+        if (error) {
+            console.log("error: ", error);
+            return callback({ error });
+        }
+        callback({ result: result[0] });
+    });
+};
+
 User.addUser = (user, callback) => {
     sql.query("INSERT INTO users set ?", user, function (error, result) {
         if (error) {
@@ -129,5 +139,29 @@ User.getUsersRatingByMovie = (movie_id, callback) => {
         callback({ result });
     });
 };
+
+User.updateUser = ({ user_id, data }, callback) => {
+    sql.query(
+        "UPDATE users SET username = ?, email = ?, firstName = ?, lastName = ?, sex = ?, age = ?, password = ? WHERE id = ?",
+        [data.username, data.email, data.firstName, data.lastName, data.sex, data.age, data.password, user_id],
+        function (error, result) {
+            if (error) {
+                console.log("error: ", error);
+                return callback({ error });
+            }
+            callback({ result });
+        });
+}
+
+User.deleteUser = ({ user_id }, callback) => {
+    sql.query("DELETE FROM users WHERE id = ?", [user_id], function (error, result) {
+        if (error) {
+            console.log("error: ", error);
+            return callback({ error });
+        }
+        callback({ result });
+    });
+};
+
 
 module.exports = User;

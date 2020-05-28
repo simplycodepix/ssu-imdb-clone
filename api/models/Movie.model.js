@@ -6,6 +6,16 @@ const Movie = function (movie) {
     this.description = movie.description;
 };
 
+Movie.getSingle = ({ movie_id }, callback) => {
+    sql.query("SELECT * FROM movie WHERE id = ?", [movie_id], function (error, result) {
+        if (error) {
+            console.log("error: ", error);
+            return callback({ error });
+        }
+        callback({ result: result[0] });
+    });
+};
+
 Movie.addMovie = (newMovie, callback) => {
     sql.query("INSERT INTO movie set ?", newMovie, function (error, result) {
         if (error) {
@@ -130,6 +140,49 @@ Movie.getTopRatedMovies = ({ count }, callback) => {
     `;
 
     sql.query(query, [count], function (error, result) {
+        if (error) {
+            console.log("error: ", error);
+            return callback({ error });
+        }
+        callback({ result });
+    });
+};
+
+Movie.getMovieSuggestions = ({ user_id, genres }, callback) => {
+    let query = `
+        SELECT m.id, m.title, m.description, m.year, ROUND(AVG(r.rating),2) as rating FROM movie m
+        LEFT JOIN rating r ON m.id = r.movie_id
+        LEFT JOIN movie_genre mg ON m.id = mg.movie_id
+        WHERE mg.genre_id IN (?) AND rating >= 4
+        GROUP by m.id
+        ORDER BY rating DESC
+        LIMIT 10;
+    `;
+
+    sql.query(query, [genres], function (error, result) {
+        if (error) {
+            console.log("error: ", error);
+            return callback({ error });
+        }
+        callback({ result });
+    });
+};
+
+Movie.updateMovie = ({ movie_id, data }, callback) => {
+    sql.query(
+        "UPDATE movie SET title = ?, description = ?, year = ? WHERE id = ?",
+        [data.title, data.description, data.year, movie_id],
+        function (error, result) {
+            if (error) {
+                console.log("error: ", error);
+                return callback({ error });
+            }
+            callback({ result });
+        });
+};
+
+Movie.deleteById = ({ movie_id }, callback) => {
+    sql.query("DELETE FROM movie WHERE id = ?", [movie_id], function (error, result) {
         if (error) {
             console.log("error: ", error);
             return callback({ error });

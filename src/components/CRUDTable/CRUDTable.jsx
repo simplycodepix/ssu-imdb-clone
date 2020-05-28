@@ -9,7 +9,7 @@ export const CRUDActions = ({ edit, remove }) => (
     </ul>
 );
 
-export const CRUDTable = ({ headers, data, name }) => {
+export const CRUDTable = ({ data, name, editItem, deleteItem }) => {
     return (
         <table>
             <thead>
@@ -21,7 +21,7 @@ export const CRUDTable = ({ headers, data, name }) => {
             <tbody>
                 {data.map(one => <tr key={`row_${Math.random()}`}>
                     {Object.keys(one).map((key) => <td key={key + one[key] + name}>{one[key]}</td>)}
-                    <td><CRUDActions /></td>
+                    <td><CRUDActions edit={() => editItem({ data: one, tableName: name })} remove={() => deleteItem({ data: one, tableName: name })} /></td>
                 </tr>)}
             </tbody>
         </table>

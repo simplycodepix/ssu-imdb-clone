@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const User = require('../models/User.model');
 const Rating = require('../models/Rating.model');
+const Movie = require('../models/Movie.model');
 
 exports.list = async (req, res) => {
     User.getUsers(({ result }) => {
@@ -51,10 +52,17 @@ exports.login = async (req, res) => {
     });
 };
 
-exports.getPreferedGenres = async (req, res) => {
-    User.findByEmailOrUsername({ email: "admin@gmail.com" }, ({ result }) => {
-        res.send(result);
+exports.getMovieSuggestions = async (req, res) => {
+    const user_id = req.params.id;
+
+    Rating.getMostRatedGenre({ user_id }, ({ result }) => {
+        const genres = result.map(genre => genre.genre_id);
+
+        Movie.getMovieSuggestions({ genres }, ({ result }) => {
+            res.json(result);
+        });
     });
+
 };
 
 exports.getUserData = async (req, res) => {
