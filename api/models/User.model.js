@@ -81,7 +81,7 @@ User.findByLogin = function ({ login = "" }, callback) {
 
 User.getRatedMovies = function ({ user_id }, callback) {
     let query = `
-        SELECT DISTINCT m.*, 
+        SELECT DISTINCT m.id, m.title, m.description, m.year, 
             GROUP_CONCAT(DISTINCT g.name SEPARATOR ', ') AS genres, 
             GROUP_CONCAT(DISTINCT l.location SEPARATOR ', ') AS locations, r.rating FROM rating r
         LEFT JOIN movie m on m.id = r.movie_id

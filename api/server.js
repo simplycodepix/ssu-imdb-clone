@@ -19,7 +19,7 @@ const mc = mysql.createConnection({
 // connect to database
 mc.connect();
 
-app.use(cors({ origin: ['http://localhost:3000'], credentials: true }));
+app.use(cors({ origin: ['http://localhost:3000', 'http://imdb.god-development.com'], credentials: true }));
 app.use(cookieParser());
 // app.use('/music', express.static('music'));
 app.use(express.urlencoded({ extended: true }));
