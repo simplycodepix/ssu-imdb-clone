@@ -34,7 +34,8 @@ code {
     text-transform: capitalize;
   }
   input,
-  select {
+  select,
+  textarea {
     width: 100%;
     height: 45px;
     border: none;
@@ -42,6 +43,12 @@ code {
     border-radius: 5px;
     background: #ffffff;
     box-shadow: 0 1px 3px rgba(#000000, 0.2);
+  }
+  textarea {
+    height: auto;
+    min-height: 100px;
+    font-family: "Open Sans", sans-serif;
+    padding: 10px 15px;
   }
   &-button {
     text-align: center;
@@ -69,6 +76,10 @@ code {
     min-width: unset;
     padding: 0 20px;
     background: #ff4136;
+  }
+
+  &:disabled {
+    background: grey;
   }
 }
 

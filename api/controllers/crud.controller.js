@@ -147,8 +147,8 @@ exports.deleteGenre = async (req, res) => {
 
 // UPDATE
 exports.updateGenre = async (req, res) => {
-    const genre_id = parseInt(req.body.genre_id);
-    const genre_name = req.body.genre_name;
+    const genre_id = parseInt(req.body.id);
+    const genre_name = req.body.name;
 
     Genre.updateGenre({ genre_id, data: { name: genre_name } }, (result) => {
         res.json(result);
@@ -156,7 +156,7 @@ exports.updateGenre = async (req, res) => {
 };
 
 exports.updateUser = async (req, res) => {
-    const user_id = parseInt(req.body.user_id);
+    const user_id = parseInt(req.body.id);
 
     const userData = {
         username: req.body.username,
@@ -165,7 +165,8 @@ exports.updateUser = async (req, res) => {
         lastName: req.body.lastName,
         password: req.body.password,
         age: parseInt(req.body.age),
-        sex: req.body.sex
+        sex: req.body.sex,
+        role: req.body.role
     };
 
     User.updateUser({ user_id, data: userData }, (result) => {
@@ -186,7 +187,7 @@ exports.updateRating = async (req, res) => {
 };
 
 exports.updateLocation = async (req, res) => {
-    const location_id = parseInt(req.body.location_id);
+    const location_id = parseInt(req.body.id);
     const location = req.body.location;
 
     Location.updateLocation({ location_id, data: { location } }, (result) => {
@@ -195,7 +196,7 @@ exports.updateLocation = async (req, res) => {
 };
 
 exports.updateMovie = async (req, res) => {
-    const movie_id = parseInt(req.body.movie_id);
+    const movie_id = parseInt(req.body.id);
 
     const movieData = {
         title: req.body.title,

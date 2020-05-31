@@ -2,15 +2,35 @@
 
 var mysql = require('mysql');
 
-var connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'imdb_clone'
-});
+let connection;
 
-connection.connect(function (err) {
-    if (err) throw err;
-});
+const setupConnection = () => {
+    connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'root',
+        password: '',
+        database: 'imdb_clone'
+    });
+
+    connection.connect(function (err) {
+        if (err) {
+            console.log('error when connecting to db:', err);
+            setTimeout(setupConnection, 2000);
+        } else {
+            console.log('connected to db')
+        }
+    });
+
+    connection.on('error', function (err) {
+        console.log('db error', err);
+        if (err.code === 'PROTOCOL_CONNECTION_LOST') {
+            setupConnection();
+        } else {
+            throw err;
+        }
+    });
+}
+
+setupConnection();
 
 module.exports = connection;

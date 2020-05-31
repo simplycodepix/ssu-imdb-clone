@@ -142,8 +142,8 @@ User.getUsersRatingByMovie = (movie_id, callback) => {
 
 User.updateUser = ({ user_id, data }, callback) => {
     sql.query(
-        "UPDATE users SET username = ?, email = ?, firstName = ?, lastName = ?, sex = ?, age = ?, password = ? WHERE id = ?",
-        [data.username, data.email, data.firstName, data.lastName, data.sex, data.age, data.password, user_id],
+        "UPDATE users SET username = ?, email = ?, firstName = ?, lastName = ?, sex = ?, age = ?, password = ?, role = ? WHERE id = ?",
+        [data.username, data.email, data.firstName, data.lastName, data.sex, data.age, data.password, data.role, user_id],
         function (error, result) {
             if (error) {
                 console.log("error: ", error);

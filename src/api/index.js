@@ -3,7 +3,8 @@ import qs from 'querystring';
 import { MOVIES, USERS, RATINGS, GENRES, LOCATIONS } from '../store/types';
 
 const localApiURL = `http://localhost:8042/api`;
-const apiURL = `http://imdb.god-development.com/api`;
+// const apiURL = `http://imdb.god-development.com/api`;
+const apiURL = localApiURL;
 
 export const getMovies = async ({ limit, offset, top }) => {
     const { data } = await axios.get(`${apiURL}/movie/list?limit=${limit}&offset=${offset}&top=${top}`);
@@ -162,6 +163,59 @@ export const getSingle = async ({ table, payload }) => {
             break;
         case LOCATIONS:
             response = await getSingleLocation({ location_id: payload.id });
+            break;
+        default:
+            break;
+    }
+
+    return response;
+};
+
+// Update
+
+export const updateUser = async ({ payload }) => {
+    const { data } = await axios.post(`${apiURL}/crud/users/update`, qs.stringify({ ...payload }));
+    return data;
+}
+
+export const updateGenre = async ({ payload }) => {
+    const { data } = await axios.post(`${apiURL}/crud/genres/update`, qs.stringify({ ...payload }));
+    return data;
+}
+
+export const updateRating = async ({ payload }) => {
+    const { data } = await axios.post(`${apiURL}/crud/rating/update`, qs.stringify({ ...payload }));
+    return data;
+}
+
+export const updateLocation = async ({ payload }) => {
+    const { data } = await axios.post(`${apiURL}/crud/locations/update`, qs.stringify({ ...payload }));
+    return data;
+}
+
+export const updateMovie = async ({ payload }) => {
+    const { data } = await axios.post(`${apiURL}/crud/movies/update`, qs.stringify({ ...payload }));
+    return data;
+}
+
+export const updateTable = async ({ table, payload }) => {
+    let response;
+
+    switch (table) {
+        case MOVIES:
+            response = await updateMovie({ payload });
+            break;
+        case USERS:
+            response = await updateUser({ payload });
+            break;
+        case RATINGS:
+            response = await updateRating({ payload });
+            break;
+        case GENRES:
+            response = await updateGenre({ payload });
+            break;
+        case LOCATIONS:
+            response = await updateLocation({ payload });
             break;
         default:
             break;
