@@ -3,8 +3,7 @@ import qs from 'querystring';
 import { MOVIES, USERS, RATINGS, GENRES, LOCATIONS } from '../store/types';
 
 const localApiURL = `http://localhost:8042/api`;
-// const apiURL = `http://imdb.god-development.com/api`;
-const apiURL = localApiURL;
+const apiURL = `http://imdb.god-development.com/api`;
 
 export const getMovies = async ({ limit, offset, top }) => {
     const { data } = await axios.get(`${apiURL}/movie/list?limit=${limit}&offset=${offset}&top=${top}`);
