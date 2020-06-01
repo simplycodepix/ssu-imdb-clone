@@ -7,17 +7,7 @@ const app = express();
 const port = 8042;
 
 
-const mysql = require('mysql');
-// connection configurations
-const mc = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'imdb_clone'
-});
-
-// connect to database
-mc.connect();
+require('./db');
 
 app.use(cors({ origin: ['http://localhost:3000', 'http://imdb.god-development.com'], credentials: true }));
 app.use(cookieParser());
